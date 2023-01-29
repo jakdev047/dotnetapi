@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MyWebAPI.Context;
-using MyWebAPI.Manager;
+//using MyWebAPI.Context;
+using MyWebAPI.Interfaces.Manager;
+//using MyWebAPI.Manager;
 using MyWebAPI.Models;
 
 namespace MyWebAPI.Controllers
@@ -11,16 +12,24 @@ namespace MyWebAPI.Controllers
     public class PostController : ControllerBase {
 
         // db
-        ApplicationDbContext _dbContext;
+        //ApplicationDbContext _dbContext;
 
         // manager
-        PostManager _postManager;
+        //PostManager _postManager;
 
         // controller
-        public PostController(ApplicationDbContext dbContext)
+        //public PostController(ApplicationDbContext dbContext)
+        //{
+        //    _dbContext = dbContext;
+        //    _postManager = new PostManager(dbContext);
+        //}
+
+        // interface
+        IPostManager _postManager;
+
+        public PostController(IPostManager postManager)
         {
-            _dbContext = dbContext;
-            _postManager = new PostManager(dbContext);
+            _postManager = postManager;
         }
 
         // landing data
