@@ -1,0 +1,16 @@
+﻿using EF.Core.Repository.Interface.Repository;
+using EF.Core.Repository.Manager;
+using MyWebAPI.Context;
+using MyWebAPI.Interfaces.Manager;
+using MyWebAPI.Models;
+using MyWebAPI.Repository;
+
+namespace MyWebAPI.Manager
+{
+    public class PostManager : CommonManager<Post>,IPostManager
+    {
+        public PostManager(ApplicationDbContext _dbContext) : base(new PostRepository(_dbContext))
+        {
+        }
+    }
+}

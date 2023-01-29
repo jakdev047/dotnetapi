@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyWebAPI.Context;
+using MyWebAPI.Manager;
 using MyWebAPI.Models;
 
 namespace MyWebAPI.Controllers
@@ -12,17 +13,22 @@ namespace MyWebAPI.Controllers
         // db
         ApplicationDbContext _dbContext;
 
+        // manager
+        PostManager _postManager;
+
         // controller
         public PostController(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
+            _postManager = new PostManager(dbContext);
         }
 
         // landing data
         [HttpGet]
         public List<Post>GetAll()
         {
-            var posts = _dbContext.Posts.ToList();
+            //var posts = _dbContext.Posts.ToList();
+            var posts = _postManager.GetAll().ToList();
 
             return posts;
         }
@@ -33,9 +39,11 @@ namespace MyWebAPI.Controllers
         {
             post.CreatedDate = DateTime.Now;
 
-            _dbContext.Posts.Add(post);
+            //_dbContext.Posts.Add(post);
 
-            bool isSaved = _dbContext.SaveChanges() > 0;
+            //bool isSaved = _dbContext.SaveChanges() > 0;
+
+            bool isSaved = _postManager.Add(post);
 
             if(isSaved) {
                 return post;
