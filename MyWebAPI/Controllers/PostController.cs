@@ -86,5 +86,26 @@ namespace MyWebAPI.Controllers
 
                 return post;
         }
+
+        // delete
+        [HttpDelete("id")]
+        public string Delete(int id)
+        {
+            var post = _postManager.GetById(id);
+
+            if(post == null)
+            {
+                return "Data not found!";
+            }
+
+            bool isDelete = _postManager.Delete(post);
+
+            if(isDelete)
+            {
+                return "post has been deleted";
+            }
+
+            return "post delete failed";
+        }
     }
 }
