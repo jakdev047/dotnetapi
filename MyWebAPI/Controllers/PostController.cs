@@ -46,7 +46,7 @@ namespace MyWebAPI.Controllers
         [HttpGet("id")]
         public Post GetById(int id)
         {
-            var post = _postManager.GetFirstOrDefault(c=> c.Id == id);
+            var post = _postManager.GetById(id);
 
             return post;
         }

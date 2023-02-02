@@ -11,6 +11,12 @@ namespace MyWebAPI.Manager
     {
         public PostManager(ApplicationDbContext _dbContext) : base(new PostRepository(_dbContext))
         {
+
+        }
+
+        public Post GetById(int id)
+        {
+            return GetFirstOrDefault(x => x.Id == id);
         }
     }
 }
