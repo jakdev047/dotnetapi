@@ -68,5 +68,23 @@ namespace MyWebAPI.Controllers
             }
             return null;
         }
+
+        // edit 
+        [HttpPut]
+        public Post Edit(Post post) {
+
+            if(post.Id == 0) {
+                return null;
+            }
+
+            bool isUpdate = _postManager.Update(post);
+
+            if(isUpdate) {
+
+                return post;
+            }
+
+                return post;
+        }
     }
 }
