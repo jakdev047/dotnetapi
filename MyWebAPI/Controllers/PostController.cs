@@ -34,26 +34,31 @@ namespace MyWebAPI.Controllers
 
         // landing data
         [HttpGet]
-        public List<Post>GetAll()
+        public ActionResult<List<Post>> GetAll()
         {
             //var posts = _dbContext.Posts.ToList();
             var posts = _postManager.GetAll().ToList();
 
-            return posts;
+            return Ok(posts);
         }
 
         // get by Id
         [HttpGet("id")]
-        public Post GetById(int id)
+        public ActionResult<Post> GetById(int id)
         {
             var post = _postManager.GetById(id);
 
-            return post;
+            if(post == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(post);
         }
 
         // create data
         [HttpPost]
-        public Post Add(Post post)
+        public ActionResult<Post> Add(Post post)
         {
             post.CreatedDate = DateTime.Now;
 
@@ -64,48 +69,48 @@ namespace MyWebAPI.Controllers
             bool isSaved = _postManager.Add(post);
 
             if(isSaved) {
-                return post;
+                return Created("", post);
             }
-            return null;
+            return BadRequest("Post save failed");
         }
 
         // edit 
         [HttpPut]
-        public Post Edit(Post post) {
+        public ActionResult<Post> Edit(Post post) {
 
             if(post.Id == 0) {
-                return null;
+                return BadRequest("Id is missing");
             }
 
             bool isUpdate = _postManager.Update(post);
-
+              
             if(isUpdate) {
 
-                return post;
+                return Ok(post);
             }
 
-                return post;
+                return BadRequest("Post updated failed");
         }
 
         // delete
         [HttpDelete("id")]
-        public string Delete(int id)
+        public ActionResult<string> Delete(int id)
         {
             var post = _postManager.GetById(id);
 
             if(post == null)
             {
-                return "Data not found!";
+                return NotFound();
             }
 
             bool isDelete = _postManager.Delete(post);
 
             if(isDelete)
             {
-                return "post has been deleted";
+                return Ok("Post has been deleted");
             }
 
-            return "post delete failed";
+            return BadRequest("Post delete failed");
         }
     }
 }
