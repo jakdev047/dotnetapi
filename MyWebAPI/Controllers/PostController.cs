@@ -32,9 +32,9 @@ namespace MyWebAPI.Controllers
             _postManager = postManager;
         }
 
-        // landing data
+        // landing data  => ActionResult<List<Post>> = IActionResult
         [HttpGet]
-        public ActionResult<List<Post>> GetAll()
+        public IActionResult GetAll()
         {
             //var posts = _dbContext.Posts.ToList();
             var posts = _postManager.GetAll().ToList();
