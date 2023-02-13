@@ -36,81 +36,117 @@ namespace MyWebAPI.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            //var posts = _dbContext.Posts.ToList();
-            var posts = _postManager.GetAll().ToList();
+            try
+            {
+                //var posts = _dbContext.Posts.ToList();
+                var posts = _postManager.GetAll().ToList();
 
-            return Ok(posts);
+                return Ok(posts);
+            } catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // get by Id
         [HttpGet("id")]
         public ActionResult<Post> GetById(int id)
         {
-            var post = _postManager.GetById(id);
-
-            if(post == null)
+            try
             {
-                return NotFound();
-            }
+                var post = _postManager.GetById(id);
 
-            return Ok(post);
+                if (post == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(post);
+            } catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // create data
         [HttpPost]
         public ActionResult<Post> Add(Post post)
         {
-            post.CreatedDate = DateTime.Now;
+            try
+            {
+                post.CreatedDate = DateTime.Now;
 
-            //_dbContext.Posts.Add(post);
+                //_dbContext.Posts.Add(post);
 
-            //bool isSaved = _dbContext.SaveChanges() > 0;
+                //bool isSaved = _dbContext.SaveChanges() > 0;
 
-            bool isSaved = _postManager.Add(post);
+                bool isSaved = _postManager.Add(post);
 
-            if(isSaved) {
-                return Created("", post);
+                if (isSaved)
+                {
+                    return Created("", post);
+                }
+                return BadRequest("Post save failed");
             }
-            return BadRequest("Post save failed");
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // edit 
         [HttpPut]
         public ActionResult<Post> Edit(Post post) {
 
-            if(post.Id == 0) {
-                return BadRequest("Id is missing");
-            }
+            try
+            {
+                if (post.Id == 0)
+                {
+                    return BadRequest("Id is missing");
+                }
 
-            bool isUpdate = _postManager.Update(post);
-              
-            if(isUpdate) {
+                bool isUpdate = _postManager.Update(post);
 
-                return Ok(post);
-            }
+                if (isUpdate)
+                {
+
+                    return Ok(post);
+                }
 
                 return BadRequest("Post updated failed");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         // delete
         [HttpDelete("id")]
         public ActionResult<string> Delete(int id)
         {
-            var post = _postManager.GetById(id);
-
-            if(post == null)
+            try
             {
-                return NotFound();
+                var post = _postManager.GetById(id);
+
+                if (post == null)
+                {
+                    return NotFound();
+                }
+
+                bool isDelete = _postManager.Delete(post);
+
+                if (isDelete)
+                {
+                    return Ok("Post has been deleted");
+                }
+
+                return BadRequest("Post delete failed");
             }
-
-            bool isDelete = _postManager.Delete(post);
-
-            if(isDelete)
+            catch (Exception ex)
             {
-                return Ok("Post has been deleted");
+                return BadRequest(ex.Message);
             }
-
-            return BadRequest("Post delete failed");
         }
     }
 }
