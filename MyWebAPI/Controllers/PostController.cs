@@ -1,6 +1,7 @@
 ﻿using CoreApiResponse;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 //using MyWebAPI.Context;
 using MyWebAPI.Interfaces.Manager;
 //using MyWebAPI.Manager;
@@ -41,7 +42,7 @@ namespace MyWebAPI.Controllers
             try
             {
                 //var posts = _dbContext.Posts.ToList();
-                var posts = _postManager.GetAll().ToList();
+                var posts = _postManager.GetAll().OrderBy(c => c.CreatedDate).ToList();
 
                 //return Ok(posts);
 
@@ -50,6 +51,27 @@ namespace MyWebAPI.Controllers
             } catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GetAllDes()
+        {
+            try
+            {
+                //var posts = _dbContext.Posts.ToList();
+                var posts = _postManager.GetAll().OrderByDescending(c => c.CreatedDate).ToList();
+
+                //return Ok(posts);
+
+                return CustomResult("Data loaded successfully", posts, HttpStatusCode.OK);
+
+            }
+            catch (Exception ex)
+            {
+                //return BadRequest(ex.Message);
+
+                return CustomResult(ex.Message, HttpStatusCode.BadRequest);
             }
         }
 
