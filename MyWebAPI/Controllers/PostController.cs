@@ -1,15 +1,17 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CoreApiResponse;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 //using MyWebAPI.Context;
 using MyWebAPI.Interfaces.Manager;
 //using MyWebAPI.Manager;
 using MyWebAPI.Models;
+using System.Net;
 
 namespace MyWebAPI.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    public class PostController : ControllerBase {
+    public class PostController : BaseController {
 
         // db
         //ApplicationDbContext _dbContext;
@@ -41,7 +43,10 @@ namespace MyWebAPI.Controllers
                 //var posts = _dbContext.Posts.ToList();
                 var posts = _postManager.GetAll().ToList();
 
-                return Ok(posts);
+                //return Ok(posts);
+
+                return CustomResult("Data loaded successfully",posts, HttpStatusCode.OK);
+                
             } catch (Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -86,7 +91,9 @@ namespace MyWebAPI.Controllers
                 {
                     return Created("", post);
                 }
+
                 return BadRequest("Post save failed");
+
             }
             catch (Exception ex)
             {
