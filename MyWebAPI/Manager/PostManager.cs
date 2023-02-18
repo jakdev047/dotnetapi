@@ -23,5 +23,10 @@ namespace MyWebAPI.Manager
         {
             return GetFirstOrDefault(x => x.Id == id);
         }
+
+        public ICollection<Post> SearchPost(string text)
+        {
+            return Get(c => c.Title.ToLower().Contains(text.ToLower()));
+        }
     }
 }

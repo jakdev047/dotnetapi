@@ -8,5 +8,7 @@ namespace MyWebAPI.Interfaces.Manager
         Post GetById(int id);
 
         ICollection<Post> GetAll(string title);
+
+        ICollection<Post> SearchPost(string title);
     }
 }
