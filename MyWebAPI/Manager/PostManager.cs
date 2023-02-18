@@ -14,6 +14,11 @@ namespace MyWebAPI.Manager
 
         }
 
+        public ICollection<Post> GetAll(string title)
+        {
+            return Get(c => c.Title.ToLower() == title.ToLower());
+        }
+
         public Post GetById(int id)
         {
             return GetFirstOrDefault(x => x.Id == id);

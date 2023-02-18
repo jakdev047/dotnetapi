@@ -54,6 +54,24 @@ namespace MyWebAPI.Controllers
             }
         }
 
+        [HttpGet("title")]
+        public IActionResult GetAll(string title)
+        {
+            try
+            {
+                var posts = _postManager.GetAll(title);
+
+                //return Ok(posts);
+
+                return CustomResult("Data loaded successfully", posts.ToList(), HttpStatusCode.OK);
+
+            }
+            catch (Exception ex)
+            {
+                return CustomResult(ex.Message, HttpStatusCode.BadRequest);
+            }
+        }
+
         [HttpGet]
         public IActionResult GetAllDes()
         {
