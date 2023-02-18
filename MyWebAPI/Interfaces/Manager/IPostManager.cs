@@ -10,5 +10,7 @@ namespace MyWebAPI.Interfaces.Manager
         ICollection<Post> GetAll(string title);
 
         ICollection<Post> SearchPost(string title);
+
+        ICollection<Post> GetPosts(int page, int pageSize);
     }
 }

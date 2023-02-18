@@ -89,6 +89,22 @@ namespace MyWebAPI.Controllers
         }
 
         [HttpGet]
+        public IActionResult GetPosts(int page = 1, int pageSize = 2)
+        {
+            try
+            {
+                var posts = _postManager.GetPosts(page, pageSize);
+
+                return CustomResult("Data loaded successfully", posts.ToList(), HttpStatusCode.OK);
+
+            }
+            catch (Exception ex)
+            {
+                return CustomResult(ex.Message, HttpStatusCode.BadRequest);
+            }
+        }
+
+        [HttpGet]
         public IActionResult GetAllDes()
         {
             try

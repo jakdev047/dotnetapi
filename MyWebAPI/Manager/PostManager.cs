@@ -24,6 +24,18 @@ namespace MyWebAPI.Manager
             return GetFirstOrDefault(x => x.Id == id);
         }
 
+        public ICollection<Post> GetPosts(int page, int pageSize)
+        {
+            if(page <= 1)
+            {
+                page = 0;
+            }
+
+            int totalNumber = page * pageSize;
+
+            return GetAll().Skip(totalNumber).Take(pageSize).ToList();
+        }
+
         public ICollection<Post> SearchPost(string text)
         {
             return Get(c => c.Title.ToLower().Contains(text.ToLower()));
